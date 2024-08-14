@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -11,6 +12,13 @@ public class Servidor {
         try (ServerSocket servidor = new ServerSocket( 80 )) { 
             System.out.println("Servidor ativo na porta 80");
             Socket cliente = servidor.accept();
+            InetSocketAddress socketAddress = (InetSocketAddress) cliente.getRemoteSocketAddress();
+            String clientIpAddress = socketAddress.getAddress().getHostAddress();
+            System.out.println("Cliente conectado");
+            System.out.println("Remote Socket Address: " + 
+            clientIpAddress);
+            System.out.println("Local Socket Name: " + 
+                cliente.getLocalSocketAddress());
             OutputStream out = cliente.getOutputStream();
             InputStream in = cliente.getInputStream();
             boolean sair = false;
@@ -39,8 +47,6 @@ public class Servidor {
             }
             scan.close();
             scanKeyboard.close();
-
-            System.out.println("Cliente conectado no servidor");
             System.out.println("Comunicação encerrada");
         } catch (IOException e) { 
             System.err.println("Erro na comunicação de rede");
