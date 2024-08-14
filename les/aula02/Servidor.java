@@ -14,22 +14,31 @@ public class Servidor {
             OutputStream out = cliente.getOutputStream();
             InputStream in = cliente.getInputStream();
             boolean sair = false;
-            out.write("\nBem vindo ao servidor Java".getBytes());
+            out.write("\n\rBem vindo ao servidor Java".getBytes());
             out.flush();
 
             Scanner scan = new Scanner(in);
+            Scanner scanKeyboard = new Scanner(System.in);
             while (! sair) { 
-                if(scan.hasNextLine()) {
-                    String linha = scan.nextLine();
+                if(in.available() > 0) {
+                    String linha = scan.next();
                     if ("SAIR".equals(linha)) { 
-                        out.write("\nTa bom... Tchau...".getBytes());
+                        out.write("\n\rTa bom... Tchau...".getBytes());
                         out.flush();
                         sair = true;
+                    } else if ("CALCULADORA".equals(linha)) { 
+                        Runtime.getRuntime().exec("calc.exe");
                     }
                     System.out.println(linha);
                 } 
+                if (System.in.available() > 0) { 
+                    String linhaDigitada = scanKeyboard.next() + "\n\r";
+                    out.write(linhaDigitada.getBytes());
+                    out.flush();
+                }
             }
             scan.close();
+            scanKeyboard.close();
 
             System.out.println("Cliente conectado no servidor");
             System.out.println("Comunicação encerrada");
