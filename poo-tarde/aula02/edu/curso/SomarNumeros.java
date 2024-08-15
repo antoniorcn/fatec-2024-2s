@@ -1,9 +1,5 @@
 package edu.curso;
 import java.util.Scanner;
-// class Teste { 
-
-// }
-
 public class SomarNumeros { 
     public static void main(String[] args) { 
         Scanner input = new Scanner(System.in);
