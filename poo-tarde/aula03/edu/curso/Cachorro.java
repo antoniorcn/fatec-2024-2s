@@ -7,7 +7,8 @@ public class Cachorro {
     float peso;
 
     public void latir() { 
-        System.out.printf("Cachorro %s esta latindo...%n", nome);
+        System.out.printf(
+            "Cachorro %s esta latindo...%n", nome);
     }
 
     public void morder() { 
@@ -15,6 +16,7 @@ public class Cachorro {
     }
 
     public void dormir() { 
-        System.out.printf("Cachorro %s esta dormindo (Zzzzz...).%n", nome);
+        System.out.printf("Cachorro %s esta dormindo (Zzzzz...).%n", 
+             this.nome);
     }
 }

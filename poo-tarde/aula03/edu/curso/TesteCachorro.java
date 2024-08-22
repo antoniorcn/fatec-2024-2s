@@ -10,6 +10,8 @@ public class TesteCachorro {
         c2.nome = "Rex";
         c2.raca = "Pastor Alemão";
 
+        Cachorro c3 = c1;
+        
         c1.dormir();
         c2.latir();
     }
