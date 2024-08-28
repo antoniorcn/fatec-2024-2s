@@ -1,0 +1,8 @@
+POST http://localhost/fatec-les/AgendaAPI HTTP/1.1
+Content-Type: text/plain
+
+Jose Alberto - (11) 3333-3333
+
+####
+
+GET http://localhost/fatec-les/AgendaAPI HTTP/1.1
