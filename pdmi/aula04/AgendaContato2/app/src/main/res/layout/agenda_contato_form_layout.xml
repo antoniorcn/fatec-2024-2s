@@ -113,4 +113,12 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="50dp"
         android:text="Pesquisar" />
+
+    <Button
+        android:id="@+id/btn_detalhes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp"
+        android:text="Detalhes" />
 </FrameLayout>

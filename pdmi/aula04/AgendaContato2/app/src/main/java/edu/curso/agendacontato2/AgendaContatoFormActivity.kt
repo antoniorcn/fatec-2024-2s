@@ -2,7 +2,6 @@ package edu.curso.agendacontato2
 
 import android.app.Activity
 import android.os.Bundle
-import android.text.Editable
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -17,7 +16,7 @@ class AgendaContatoFormActivity : Activity() {
     val lista = ArrayList<Contato>()
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
-        setContentView(R.layout.agenda_contato_form_ayout)
+        setContentView(R.layout.agenda_contato_form_layout)
 
         val edtNome : EditText = findViewById(R.id.edt_nome)
         val edtEmail = findViewById<EditText>(R.id.edt_email)
@@ -39,6 +38,17 @@ class AgendaContatoFormActivity : Activity() {
             edtNome.setText("")
             edtTelefone.setText("")
             edtEmail.setText("")
+        }
+
+        btnPesquisar.setOnClickListener {
+            for (contato in lista) {
+                if (contato.nome.contains( edtNome.text )) {
+                    edtNome.setText(contato.nome)
+                    edtTelefone.setText(contato.telefone)
+                    edtEmail.setText(contato.email)
+                    break
+                }
+            }
         }
     }
 }
