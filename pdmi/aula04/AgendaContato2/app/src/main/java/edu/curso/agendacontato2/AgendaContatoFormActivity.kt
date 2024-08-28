@@ -1,6 +1,7 @@
 package edu.curso.agendacontato2
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -24,6 +25,7 @@ class AgendaContatoFormActivity : Activity() {
 
         val btnGravar = findViewById<Button>(R.id.btn_gravar)
         val btnPesquisar = findViewById<Button>(R.id.btn_pesquisar)
+        val btnDetalhes = findViewById<Button>(R.id.btn_detalhes)
 
         btnGravar.setOnClickListener {
             val contato = Contato(
@@ -49,6 +51,14 @@ class AgendaContatoFormActivity : Activity() {
                     break
                 }
             }
+        }
+
+        btnDetalhes.setOnClickListener {
+            val intent = Intent(this, AgendaContatoDetalhesActivity::class.java)
+            val bundleData = Bundle()
+            bundleData.putString("NOME", edtNome.text.toString())
+            intent.putExtras( bundleData )
+            startActivity(intent)
         }
     }
 }
