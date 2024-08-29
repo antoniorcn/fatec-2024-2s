@@ -4,7 +4,6 @@ package edu.curso;
  * Please don't reuse any of this code in other projects.
  * http://www.mojang.com/notch/j4k/l4kd/
  */
-import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
