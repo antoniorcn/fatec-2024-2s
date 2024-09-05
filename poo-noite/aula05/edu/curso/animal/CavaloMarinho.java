@@ -1,4 +1,4 @@
-package edu.curso;
+package edu.curso.animal;
 
 public class CavaloMarinho extends Animal {
     public CavaloMarinho() { 

@@ -1,4 +1,4 @@
-package edu.curso;
+package edu.curso.animal;
 
 public class Animal { 
 
@@ -9,10 +9,10 @@ public class Animal {
     }
 
     void respirar() {
-        System.out.printf("%s respirando...%n", this.especie);
+        System.out.printf("%s respirando...", this.especie);
     }
 
     void dormir() { 
-        System.out.printf("%s dormindo...%n", this.especie);
+        System.out.printf("%s dormindo...", this.especie);
     }
 }
