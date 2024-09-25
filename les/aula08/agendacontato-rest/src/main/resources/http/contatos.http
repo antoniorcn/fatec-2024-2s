@@ -1,0 +1,9 @@
+POST http://localhost:8080/contatos HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 0,
+    "nome": "Joaquina Barborsa",
+    "email": "joaquina@teste.com",
+    "telefone": "(11) 6666-6666"
+}
