@@ -1,6 +1,7 @@
 package edu.curso.agendacontato.activity
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -29,7 +30,12 @@ class ContatoFormActivity : Activity() {
                 )
             lista.add(c1)
         }
-
-
+        btnListar.setOnClickListener {
+            val intent1 = Intent(this, ContatoListActivity::class.java)
+            val b1 = Bundle()
+            b1.putSerializable("LISTA", lista)
+            intent1.putExtras(b1)
+            startActivity(intent1)
+        }
     }
 }

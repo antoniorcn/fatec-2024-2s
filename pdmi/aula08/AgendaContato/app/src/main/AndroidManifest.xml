@@ -12,12 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AgendaContato"
         tools:targetApi="31">
-        <activity android:name=".activity.ContatoListActivity" android:exported="true">
+        <activity android:name=".activity.ContatoFormActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activity.ContatoListActivity" />
     </application>
 
 </manifest>
