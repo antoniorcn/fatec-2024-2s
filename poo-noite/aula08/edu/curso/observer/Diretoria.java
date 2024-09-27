@@ -1,4 +1,4 @@
-package edu.curso;
+package edu.curso.observer;
 
 public class Diretoria implements Consumidor {
     

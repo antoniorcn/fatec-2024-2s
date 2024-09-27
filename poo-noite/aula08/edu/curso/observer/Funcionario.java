@@ -1,4 +1,4 @@
-package edu.curso;
+package edu.curso.observer;
 
 import java.util.ArrayList;
 import java.util.List;
