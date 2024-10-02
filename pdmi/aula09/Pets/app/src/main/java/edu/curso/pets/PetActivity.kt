@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -81,12 +82,17 @@ class PetActivity : Activity() {
                 Log.e("PET", "Erro ao ler os dados", e)
             }
             override fun onResponse( call : Call, response : Response) {
-                val textoJson = response.body?.string() ?: "{}"
-                val mapa : HashMap<String, Pet> =
-                    gson.fromJson(textoJson, HashMap<String, Pet>()::class.java)
-                lista.clear()
-                for (petItem in mapa) {
-                    lista.add(petItem.value)
+                val textoJson = response.body?.string()
+                Log.d("PET", "Carregar Firebase JSON:  $textoJson")
+                if (textoJson != null && textoJson != "null") {
+                    val typeToken  = object :
+                            TypeToken<HashMap<String?, Pet?>>(){}.type
+                    val mapa: HashMap<String?, Pet?> =
+                        gson.fromJson(textoJson, typeToken)
+                    lista.clear()
+                    for (petItem in mapa) {
+                        lista.add(petItem.value ?: Pet())
+                    }
                 }
             }
         }
