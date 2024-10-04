@@ -5,10 +5,14 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 public class ContatoBoundary extends Application{
@@ -16,11 +20,22 @@ public class ContatoBoundary extends Application{
     private TextField txtNome = new TextField();
     private TextField txtTelefone = new TextField();
     private TextField txtEmail = new TextField();
-    private List<Contato> lista = new ArrayList<>();
+    private ContatoControl control = new ContatoControl();
+
 
     @Override
     public void start(Stage stage) { 
         GridPane pane = new GridPane();
+        ColumnConstraints col30 = new ColumnConstraints();
+        col30.setPercentWidth(30.0);
+        ColumnConstraints col70 = new ColumnConstraints();
+        col70.setPercentWidth(70.0);
+        pane.getColumnConstraints().addAll( col30, col70 );
+
+        RowConstraints row25 = new RowConstraints();
+        row25.setPercentHeight(25.0);
+        pane.getRowConstraints().addAll(row25, row25, row25, row25);
+
         Scene scn = new Scene(pane, 600, 400);
 
         pane.add(new Label("Nome: "), 0, 0);
@@ -34,14 +49,23 @@ public class ContatoBoundary extends Application{
         Button btnPesquisar = new Button("Pesquisar");
         btnGravar.setOnAction( e -> {
             Contato c = telaParaContato();
-            lista.add(c);
+            control.gravar( c );
+            Alert alert = new Alert(AlertType.INFORMATION, 
+                "Contato gravado com sucesso");
+            alert.showAndWait();
+            txtNome.setText("");
+            txtEmail.setText("");
+            txtTelefone.setText("");
         });
         btnPesquisar.setOnAction( e -> {
-            for (Contato c : lista) { 
-                if (c.getNome().contains( txtNome.getText() )) {
-                    contatoParaTela( c );
-                    break;
-                }
+            Contato c = control
+                            .pesquisarPorNome( txtNome.getText() );
+            if (c == null) { 
+                Alert alert = new Alert(AlertType.WARNING, 
+                        "Não há contatos com este nome");
+                alert.showAndWait();
+            } else { 
+                contatoParaTela( c );
             }
         });
 
@@ -66,9 +90,11 @@ public class ContatoBoundary extends Application{
     }
 
     public void contatoParaTela( Contato c ) { 
-        txtNome.setText( c.getNome() );
-        txtTelefone.setText( c.getTelefone() );
-        txtEmail.setText( c.getEmail() );
+        if (c != null) {
+            txtNome.setText( c.getNome() );
+            txtTelefone.setText( c.getTelefone() );
+            txtEmail.setText( c.getEmail() );
+        }
     }
     
 }
