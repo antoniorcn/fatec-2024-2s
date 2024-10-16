@@ -1,5 +1,6 @@
 package edu.curso.helloworld
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +16,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,14 +28,38 @@ import androidx.compose.ui.unit.sp
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var contador = mutableIntStateOf( 0 )
         enableEdgeToEdge()
         setContent {
-            Calculadora()
+            Contador( contador )
+        }
+    }
+}
+// @Preview(showBackground = true)
+@Composable
+fun Contador( contador : MutableIntState) {
+    Row(
+        modifier = Modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(onClick={
+            contador.value -= 1
+            Log.d("AULA11","Contador: $contador")
+        }) {
+            Text("-", fontSize = 48.sp)
+        }
+        Text("${contador.value}", fontSize=42.sp)
+        Button(onClick={
+            contador.value += 1
+            Log.d("AULA11","Contador: $contador")
+        }) {
+            Text("+", fontSize = 48.sp)
         }
     }
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun Calculadora() {
     val nomesBotoes = listOf(
