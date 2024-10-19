@@ -13,7 +13,9 @@ pygame.init()
 screen = pygame.display.set_mode( (800, 600), 0, 32 )
 
 largura = 200
+altura = 150
 inicio_x = 100
+inicio_y = 100
 
 sair = False
 while not sair:
@@ -21,10 +23,12 @@ while not sair:
 
     # Mostrar na tela
     screen.fill( (0, 0, 0) )        # Limpar a tela
-    for coluna in range(3):
-        x = inicio_x + (coluna * largura)
-        pygame.draw.rect(screen, (255, 255, 0),
-                        ( (x, 100), (largura, 50) ), 3  )
+    for linha in range(3):
+        y = inicio_y + (linha * altura)
+        for coluna in range(3):
+            x = inicio_x + (coluna * largura)
+            pygame.draw.rect(screen, (255, 255, 0),
+                            ( (x, y), (largura, altura) ), 3  )
 
     pygame.display.update()         # Atualiza a tela
 
