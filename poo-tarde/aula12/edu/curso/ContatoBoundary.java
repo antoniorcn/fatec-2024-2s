@@ -1,6 +1,7 @@
 package edu.curso;
 import java.time.LocalDate;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -41,14 +42,15 @@ public class ContatoBoundary extends Application {
         paneForm.add(dateNascimento, 1, 4);
 
         Button btnGravar = new Button("Gravar");
-        btnGravar.setOnAction( e -> {});
+        btnGravar.setOnAction( e -> control.gravar());
         Button btnPesquisar = new Button("Pesquisar");
-        btnPesquisar.setOnAction( e -> {});
+        btnPesquisar.setOnAction( e ->control.pesquisarPorNome());
 
         paneForm.add(btnGravar, 0, 5);
         paneForm.add(btnPesquisar, 1, 5);
 
         generateColumns();
+        vincularPropriedes();
 
         panePrincipal.setTop( paneForm );
         panePrincipal.setCenter(tableView);
@@ -78,6 +80,13 @@ public class ContatoBoundary extends Application {
         tableView.getColumns().addAll(col1, col2, col3, col4, col5);
 
         tableView.setItems( control.getLista() );
+    }
+
+    public void vincularPropriedes() { 
+        Bindings.bindBidirectional(txtNome.textProperty(), control.nomeProperty());
+        Bindings.bindBidirectional(txtEmail.textProperty(), control.emailProperty());
+        Bindings.bindBidirectional(txtTelefone.textProperty(), control.telefoneProperty());
+        Bindings.bindBidirectional(dateNascimento.valueProperty(), control.nascimentoProperty());
     }
 
     public static void main(String[] args) {
