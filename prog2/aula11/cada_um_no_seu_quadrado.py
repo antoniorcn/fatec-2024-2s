@@ -31,6 +31,10 @@ def colisao_rect( rect_a, rect_b):
     return colidiu_x and colidiu_y
 
 pygame.init()
+pygame.mixer.init()
+
+som_laugh=pygame.mixer.Sound("./spongebob-laughing.mp3")
+
 screen = pygame.display.set_mode( (800, 600), 0, 32 )
 
 img_bob = pygame.image.load("./bob_squarepants.png")
@@ -61,6 +65,10 @@ while True:
     cor_personagem = AMARELO
     if colisao_rect(retangulo_personagem, retangulo_bonus):
         cor_personagem = VERMELHO
+        pygame.mixer.Sound.play(som_laugh)
+    else:
+        pygame.mixer.Sound.stop(som_laugh)
+        
     if colisao_rect(retangulo_personagem, retangulo_inimigo1):
         cor_personagem = VERMELHO
     
