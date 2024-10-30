@@ -51,9 +51,6 @@ fun TelaPrincipal(
     modifier: Modifier = Modifier,
     viewModel: ContatoViewModel
 ) {
-    val nome = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-    val telefone = remember { mutableStateOf("") }
     Column(modifier=Modifier.fillMaxSize()) {
         Text(
             text = titulo,
@@ -64,36 +61,29 @@ fun TelaPrincipal(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text("Nome:")
-            OutlinedTextField(value = nome.value,
+            OutlinedTextField(value = viewModel.nome.value,
                 onValueChange = { valor ->
-                    nome.value = valor.lowercase() })
+                    viewModel.nome.value = valor.lowercase() })
         }
         Row(
             modifier=Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text("Email:")
-            OutlinedTextField(value = email.value, onValueChange = {
-                email.value = it
-            })
+            OutlinedTextField(value = viewModel.email.value,
+                onValueChange = { viewModel.email.value = it })
         }
         Row(
             modifier=Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text("Telefone:")
-            OutlinedTextField(value = telefone.value, onValueChange = {
-                telefone.value = it
-            })
+            OutlinedTextField(value = viewModel.telefone.value,
+                onValueChange = { viewModel.telefone.value = it })
         }
         Row(modifier=Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround) {
-            Button(onClick={
-                val contato = Contato(nome=nome.value,
-                    telefone=telefone.value,
-                    email=email.value)
-                viewModel.lista.add(contato)
-            }) {
+            Button(onClick={ viewModel.gravar() }) {
                 Text("Gravar")
             }
             Button(onClick={}) {
@@ -105,7 +95,7 @@ fun TelaPrincipal(
             item {
                 Text("Inicio da Lazy Column")
             }
-            items(items=lista) { contato ->
+            items(items=viewModel.lista) { contato ->
                 Card() {
                     Text(contato.nome)
                     Text(contato.telefone)
