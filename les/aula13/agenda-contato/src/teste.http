@@ -14,7 +14,7 @@ GET https://fatec-2024-2s-les-default-rtdb.firebaseio.com/contatos.json HTTP/1.1
 
 ### 
 
-POST https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCL5LsqLHwemjqzoJDjI46GXasepBXLAQQ HTTP/1.1
+POST https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY] HTTP/1.1
 
 {
     "email": "joao@teste.com",
