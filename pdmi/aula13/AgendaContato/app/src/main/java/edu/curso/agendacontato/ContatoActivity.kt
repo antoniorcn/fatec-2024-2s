@@ -86,7 +86,7 @@ fun TelaPrincipal(
             Button(onClick={ viewModel.gravar() }) {
                 Text("Gravar")
             }
-            Button(onClick={}) {
+            Button(onClick={ viewModel.carregarTodos() }) {
                 Text("Pesquisar")
             }
         }

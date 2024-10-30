@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -46,4 +47,33 @@ class ContatoViewModel : ViewModel() {
         httpClient.newCall( request ).enqueue( response )
     }
 
+    fun carregarTodos() {
+        val request = Request.Builder()
+            .url("$URL_BASE/contatos.json")
+            .get()
+            .build()
+        val response = object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("AGENDA", "Erro ao trazer os contatos", e)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                Log.d("AGENDA", "Sucesso ao buscar os contatos")
+                val corpo = response.body?.string() ?: "null"
+                if (corpo != "null")  {
+                    val typeToken = object :
+                        TypeToken<HashMap<String?, Contato?>>(){}.type
+                    val contatosMap : HashMap<String?, Contato?> =
+                            gson.fromJson( corpo, typeToken )
+                    for (entry in contatosMap) {
+                        val contato = entry.value
+                        if (contato != null) {
+                            lista.add(contato)
+                        }
+                    }
+                }
+            }
+        }
+        httpClient.newCall(request).enqueue(response)
+    }
 }
