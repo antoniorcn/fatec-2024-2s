@@ -19,15 +19,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import edu.curso.agendacontato.ui.theme.AgendaContatoTheme
 
 class ContatoActivity : ComponentActivity() {
 
-    val viewModel : ContatoViewModel by viewModels<ContatoViewModel>()
+    private val viewModel : ContatoViewModel by viewModels<ContatoViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,12 +88,12 @@ fun TelaPrincipal(
             }
         }
 
-        LazyColumn() {
+        LazyColumn {
             item {
                 Text("Inicio da Lazy Column")
             }
             items(items=viewModel.lista) { contato ->
-                Card() {
+                Card {
                     Text(contato.nome)
                     Text(contato.telefone)
                 }
