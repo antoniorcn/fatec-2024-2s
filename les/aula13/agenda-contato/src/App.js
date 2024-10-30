@@ -1,14 +1,23 @@
 import React, {useState} from "react";
 import axios from "axios";
 
+const apiLogin = axios.create( { 
+  baseURL: "https://identitytoolkit.googleapis.com/v1"
+})
+
 function App() {
+  const APIKEY = process.env.REACT_APP_ApiKey;
+  console.log("API Key Lida: ", APIKEY);
   const [token, setToken] = useState(null);
-  return token == null ? (<Login/>) : (<Formulario/>)
+  return token == null 
+  ? (<Login apiKey={APIKEY} setToken={setToken}/>) 
+  : (<Formulario token={token}/>)
 }
 
-function Login() { 
+function Login( props ) { 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  
   return (
     <div style={{backgroundColor: "lightcyan", display: "flex",
       flex: 1, flexDirection: "column", height: "100vh"
@@ -35,14 +44,28 @@ function Login() {
           justifyContent: "center"
         }}>
           <button type="button" onClick={()=>{}}>Login</button>
-          <button type="button" onClick={()=>{}}>Registrar</button>          
+          <button type="button" onClick={()=>{
+            const body = {
+              "email": email,
+              "password": senha,
+              "returnSecureToken": true
+            }
+            apiLogin.post(`/accounts:signUp?key=${props.apiKey}`, body)
+            .then((resposta)=>{
+              props.setToken(resposta.data.idToken);
+              alert("Usuario registrado com sucesso");
+            })
+            .catch(()=>{
+              alert("Erro ao fazer o registro");
+            })
+          }}>Registrar</button>          
         </div>
       </div>
     </div>
   )
 }
 
-function Formulario() { 
+function Formulario( props ) { 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -112,16 +135,24 @@ function Formulario() {
           <button type="button" onClick={()=>{
               const obj = {nome, telefone, email};
               axios.post(
-                "https://fatec-2024-2s-les-default-rtdb.firebaseio.com/contatos.json",
+                `https://fatec-2024-2s-les-default-rtdb.firebaseio.com/contatos.json?auth=${props.token}`,
                 obj
-              );
+              ).then(()=>{alert("Contato salvo com sucesso")})
+              .catch(()=>{alert("Erro ao salvar o contato")})
           }}>Salvar no Firebase</button>
           <button type="button" onClick={()=>{
               console.log("Carregando do firebase...")
               axios.get(
-                "https://fatec-2024-2s-les-default-rtdb.firebaseio.com/contatos.json")
+                `https://fatec-2024-2s-les-default-rtdb.firebaseio.com/contatos.json?auth=${props.token}`)
               .then(( response )=>{
                 console.log("Dados recebidos: ", response.data);
+                const contatosMap = response.data;
+                const listaTemp = []
+                for (const key in contatosMap) { 
+                  const contato = contatosMap[key];
+                  listaTemp.push(contato);
+                }
+                setLista(listaTemp);
                 alert("Dados carregados com sucesso");
               }).catch(( erro )=>{
                 alert("Erro ao carregar do firebase: " + erro.message)
