@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -13,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 
 // class TesteClasse implements TesteInterface { 
@@ -84,7 +86,39 @@ public class ContatoBoundary extends Application {
         TableColumn<Contato, LocalDate> col5 = new TableColumn<>("Nascimento");
         col5.setCellValueFactory(new PropertyValueFactory<Contato, LocalDate>("nascimento"));
 
-        tableView.getColumns().addAll(col1, col2, col3, col4, col5);
+
+        // Criar o fabricante da Celula
+        Callback<TableColumn<Contato, Void>, TableCell<Contato, Void>> callback = 
+            new  Callback<>() {
+                @Override
+                public TableCell<Contato, Void> call(TableColumn<Contato, Void> param) {
+                    TableCell<Contato, Void> tc = new TableCell<>() { 
+                        final Button btnExcluir = new Button("Apagar");
+                        {
+                            btnExcluir.setOnAction( 
+                                e -> { 
+                                    Contato c = tableView.getItems().get( getIndex() );
+                                    control.excluir( c ); 
+                                }
+                            );
+                        }
+                        public void updateItem(Void item, boolean empty) { 
+                            super.updateItem(item, empty);
+                            if (empty) { 
+                                setGraphic( null );
+                            } else { 
+                                setGraphic( btnExcluir );
+                            }
+                        }
+                    };
+                    return tc;
+                } 
+        };
+
+        TableColumn<Contato, Void> col6 = new TableColumn<>("Ações");
+        col6.setCellFactory( callback );
+
+        tableView.getColumns().addAll(col1, col2, col3, col4, col5, col6);
         tableView.setItems( control.getLista() );
 
         tableView.getSelectionModel().selectedItemProperty()

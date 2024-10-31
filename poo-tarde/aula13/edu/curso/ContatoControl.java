@@ -40,6 +40,11 @@ public class ContatoControl {
         this.nascimento.set(c.getNascimento());
     }
 
+    public void excluir( Contato c ) { 
+        System.out.println("Excluido contato com nome: " + c.getNome());
+        lista.remove( c );
+    }
+
     public void gravar() { 
         Contato c = new Contato();
         contador += 1;
