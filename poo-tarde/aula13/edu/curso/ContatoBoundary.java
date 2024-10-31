@@ -15,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 
 // class TesteClasse implements TesteInterface { 
@@ -51,12 +53,19 @@ public class ContatoBoundary extends Application {
         paneForm.add(dateNascimento, 1, 4);
 
         Button btnGravar = new Button("Gravar");
-        btnGravar.setOnAction( e -> control.gravar());
+        btnGravar.setOnAction( e -> {
+            control.gravar();
+            tableView.refresh();
+        });
         Button btnPesquisar = new Button("Pesquisar");
         btnPesquisar.setOnAction( e ->control.pesquisarPorNome());
 
+        Button btnLimpar = new Button("*");
+        btnLimpar.setOnAction( e -> control.limparTudo() );
+
         paneForm.add(btnGravar, 0, 5);
         paneForm.add(btnPesquisar, 1, 5);
+        paneForm.add(btnLimpar, 2, 0);
 
         generateColumns();
         vincularPropriedes();
@@ -153,6 +162,8 @@ public class ContatoBoundary extends Application {
     }
 
     public void vincularPropriedes() { 
+        Bindings.bindBidirectional(lblId.textProperty(), control.idProperty(), 
+                    (StringConverter) new IntegerStringConverter());
         Bindings.bindBidirectional(txtNome.textProperty(), control.nomeProperty());
         Bindings.bindBidirectional(txtEmail.textProperty(), control.emailProperty());
         Bindings.bindBidirectional(txtTelefone.textProperty(), control.telefoneProperty());
