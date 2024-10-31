@@ -91,17 +91,25 @@ public class ContatoBoundary extends Application {
                     control.paraTela(novo);
                 }
             });
-        
         Callback<TableColumn<Contato, Void>, TableCell<Contato, Void>> cb = 
             new Callback<>() {
                 @Override
                 public TableCell<Contato, Void> call(
                     TableColumn<Contato, Void> param) {
                     TableCell<Contato, Void> celula = new TableCell<>() { 
+                        final Button btnApagar = new Button("Apagar");
+
+                        {
+                            btnApagar.setOnAction( e -> {
+                                Contato contato = tableView.getItems().get( getIndex() );
+                                control.excluir( contato ); 
+                            });
+                        }
+
                         @Override
-                        public void updateItem( Void item, boolean empty) { 
+                        public void updateItem( Void item, boolean empty) {                             
                             if (!empty) { 
-                                setGraphic(new Button("Apagar"));
+                                setGraphic(btnApagar);
                             } else { 
                                 setGraphic(null);
                             }

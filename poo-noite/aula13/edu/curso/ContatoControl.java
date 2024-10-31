@@ -43,6 +43,10 @@ public class ContatoControl {
         return c;
     }
 
+    public void excluir( Contato c ) { 
+        lista.remove( c );
+    }
+
     public void paraTela(Contato c) { 
         if (c != null) {
             id.set( c.getId() );
