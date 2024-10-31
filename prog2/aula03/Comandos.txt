@@ -1,0 +1,20 @@
+Comandos:
+	CD    	Muda de diretório
+	MKDIR 				Cria diretório
+	CLS				Limpa a tela
+	CODE 				Chama o visual studio code
+	python --version		Mostra a versão do Python
+	python <nome do arquivo> 	Executa o arquivo
+
+* Abrir Command Prompt
+	Barra de pesquisa digite CMD
+* Criar pasta C:\JD\Prog2\aula03
+	CD \
+	MKDIR JD
+	CD JD
+	MKDIR Prog2
+	CD Prog2
+	MKDIR aula03
+	CD aula03
+* Chamar o Visual Studio Code
+	code .
