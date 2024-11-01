@@ -36,14 +36,21 @@ public class ContatoBoundary extends Application {
         GridPane paneForm = new GridPane();
 
         Button btnGravar = new Button("Gravar");
-        btnGravar.setOnAction( e -> control.gravar() );
+        btnGravar.setOnAction( e -> { 
+            control.gravar();
+            tableView.refresh();
+        });
         Button btnPesquisar = new Button("Pesquisar");
         btnPesquisar.setOnAction( e -> control.pesquisar() );
+
+        Button btnNovo = new Button("*");
+        btnNovo.setOnAction( e -> control.limparTudo() );
 
         paneForm.add(new Label("Id: "), 0, 0);
         paneForm.add(lblId, 1, 0);
         paneForm.add(new Label("Nome: "), 0, 1);
         paneForm.add(txtNome, 1, 1);
+        paneForm.add(btnNovo, 2, 1);
         paneForm.add(new Label("Email: "), 0, 2);
         paneForm.add(txtEmail, 1, 2);
         paneForm.add(new Label("Telefone: "), 0, 3);

@@ -14,7 +14,7 @@ import javafx.beans.property.StringProperty;
 public class ContatoControl {
 
     private ObservableList<Contato> lista = FXCollections.observableArrayList();
-    private long contador = 0;
+    private long contador = 2;
 
     private LongProperty id = new SimpleLongProperty(0);
     private StringProperty nome = new SimpleStringProperty("");
@@ -47,6 +47,14 @@ public class ContatoControl {
         lista.remove( c );
     }
 
+    public void limparTudo() { 
+        id.set( 0 );
+        nome.set( "" );
+        email.set( "");
+        telefone.set("");
+        nascimento.set(LocalDate.now());
+    }
+
     public void paraTela(Contato c) { 
         if (c != null) {
             id.set( c.getId() );
@@ -59,10 +67,21 @@ public class ContatoControl {
 
 
     public void gravar() { 
-        this.contador += 1;
-        Contato c = paraEntidade();
-        c.setId( this.contador );
-        lista.add( c );
+        if (this.id.get() == 0 ) { 
+            this.contador += 1;
+            Contato c = paraEntidade();
+            c.setId( this.contador );
+            lista.add( c );
+        } else { 
+            for (Contato c : lista) { 
+                if (c.getId() == id.get()) { 
+                    c.setNome( nome.get() );
+                    c.setTelefone( telefone.get() );
+                    c.setEmail( email.get() );
+                    c.setNascimento( nascimento.get() );
+                }
+            }
+        }
     }
 
     public void pesquisar() { 
