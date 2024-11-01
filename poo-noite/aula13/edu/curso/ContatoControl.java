@@ -43,8 +43,15 @@ public class ContatoControl {
         return c;
     }
 
-    public void excluir( Contato c ) { 
-        lista.remove( c );
+    public void excluir( Contato c ) throws Exception { 
+        if (c != null && lista.contains(c) ) { 
+            if (c.getId() == 1) { 
+                throw new Exception("Erro ao apagar");
+            } else if (c.getId() == 2) { 
+                throw new ContatoException("Erro ao apagar o usuario");
+            }
+            lista.remove( c );
+        }
     }
 
     public void limparTudo() { 

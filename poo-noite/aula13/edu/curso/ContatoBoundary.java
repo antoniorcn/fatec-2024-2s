@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -109,7 +111,19 @@ public class ContatoBoundary extends Application {
                         {
                             btnApagar.setOnAction( e -> {
                                 Contato contato = tableView.getItems().get( getIndex() );
-                                control.excluir( contato ); 
+                                try { 
+                                    control.excluir( contato ); 
+                                } catch (ContatoException err) { 
+                                    new Alert(
+                                        AlertType.ERROR,
+                                        "Erro ao excluir o usuário"
+                                    ).show();
+                                } catch (Exception err) { 
+                                    new Alert(
+                                        AlertType.ERROR,
+                                        "Erro generico"
+                                    ).show();
+                                }
                             });
                         }
 
