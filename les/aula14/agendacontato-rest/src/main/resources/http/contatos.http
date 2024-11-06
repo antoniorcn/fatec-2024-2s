@@ -1,4 +1,10 @@
+GET http://localhost:8080/contatos HTTP/1.1
+Authorization: Basic joao@teste.com 1234
+
+
+###
 POST http://localhost:8080/contatos HTTP/1.1
+Authorization: Basic joao@teste.com 1234
 Content-Type: application/json
 
 {
