@@ -1,3 +1,5 @@
+CREATE DATABASE agendadb;
+
 USE agendadb;
 
 CREATE TABLE contatos ( 
