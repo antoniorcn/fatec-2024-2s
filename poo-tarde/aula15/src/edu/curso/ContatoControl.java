@@ -20,12 +20,12 @@ public class ContatoControl {
     private StringProperty telefone = new SimpleStringProperty("");
     private ObjectProperty<LocalDate> nascimento = new SimpleObjectProperty<>(LocalDate.now());
 
-    private ContatoDAO contatoDAO = new ContatoDAOImpl();
+    private ContatoDAO contatoDAO;
 
     private int contador = 2;
 
-    public ContatoControl() { 
-        pesquisarTodos();
+    public ContatoControl() throws ContatoException{ 
+        contatoDAO = new ContatoDAOImpl();
     }
 
     public void entidadeParaTela(Contato c) { 
@@ -38,13 +38,13 @@ public class ContatoControl {
         }
     }
 
-    public void excluir( Contato c ) { 
+    public void excluir( Contato c )  throws ContatoException { 
         System.out.println("Excluido contato com nome: " + c.getNome());
         contatoDAO.remover(c);
         pesquisarTodos();
     }
 
-    public void gravar() { 
+    public void gravar() throws ContatoException { 
         Contato c = new Contato();
         c.setNome( this.nome.get() );
         c.setTelefone( this.telefone.get() );
@@ -72,12 +72,12 @@ public class ContatoControl {
         nascimento.set(LocalDate.now());
     }
 
-    public void pesquisarPorNome() { 
+    public void pesquisarPorNome()  throws ContatoException { 
         lista.clear();
         lista.addAll( contatoDAO.pesquisarPorNome( nome.get() ) );
     }
 
-    public void pesquisarTodos() { 
+    public void pesquisarTodos()  throws ContatoException { 
         lista.clear();
         lista.addAll(contatoDAO.pesquisarTodos());
     }

@@ -1,4 +1,5 @@
 package edu.curso;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -17,6 +18,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ContatoBoundary extends Application { 
     private Label lblId = new Label("");
@@ -27,11 +30,17 @@ public class ContatoBoundary extends Application {
 
     private TableView<Contato> tableView = new TableView<>();
 
-    private ContatoControl control = new ContatoControl();
+    private ContatoControl control;
 
     @Override
     public void start(Stage stage) { 
         BorderPane panePrincipal = new BorderPane();
+
+        try { 
+            control = new ContatoControl();
+        } catch (ContatoException e) { 
+            alert(AlertType.ERROR, "Ao ao inicializar o sistema");
+        }
 
         GridPane paneForm = new GridPane();
         paneForm.add(new Label("Id: "), 0, 0);
@@ -47,11 +56,21 @@ public class ContatoBoundary extends Application {
 
         Button btnGravar = new Button("Gravar");
         btnGravar.setOnAction( e -> {
-            control.gravar();
-            tableView.refresh();
+            try { 
+                control.gravar();
+                tableView.refresh();
+            } catch (ContatoException err) { 
+                alert(AlertType.ERROR, "Erro ao gravar");
+            }  
         });
         Button btnPesquisar = new Button("Pesquisar");
-        btnPesquisar.setOnAction( e ->control.pesquisarPorNome());
+        btnPesquisar.setOnAction( e -> { 
+            try { 
+                control.pesquisarPorNome(); 
+            } catch (ContatoException err) { 
+                alert(AlertType.ERROR, "Erro ao pesquisar");
+            }   
+        });
 
         Button btnLimpar = new Button("*");
         btnLimpar.setOnAction( e -> control.limparTudo() );
@@ -70,6 +89,18 @@ public class ContatoBoundary extends Application {
         stage.setScene(scn);
         stage.setTitle("Agenda de Contato");
         stage.show();
+        try { 
+        control.pesquisarTodos();
+        } catch(ContatoException e) { 
+            alert(AlertType.ERROR, "Erro ao pesquisar todos");
+        }
+    }
+
+    public void alert(AlertType tipo, String msg) { 
+        Alert alertWindow = new Alert(tipo);
+        alertWindow.setHeaderText("Alerta");
+        alertWindow.setContentText(msg);
+        alertWindow.showAndWait();
     }
 
     public void generateColumns() { 
@@ -99,8 +130,12 @@ public class ContatoBoundary extends Application {
                         {
                             btnExcluir.setOnAction( 
                                 e -> { 
-                                    Contato c = tableView.getItems().get( getIndex() );
-                                    control.excluir( c ); 
+                                    try { 
+                                        Contato c = tableView.getItems().get( getIndex() );
+                                        control.excluir( c ); 
+                                    } catch (ContatoException err) { 
+                                        alert(AlertType.ERROR, "Erro ao excluir");
+                                    }  
                                 }
                             );
                         }
