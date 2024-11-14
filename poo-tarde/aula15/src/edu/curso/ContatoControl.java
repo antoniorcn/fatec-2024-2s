@@ -20,22 +20,12 @@ public class ContatoControl {
     private StringProperty telefone = new SimpleStringProperty("");
     private ObjectProperty<LocalDate> nascimento = new SimpleObjectProperty<>(LocalDate.now());
 
+    private ContatoDAO contatoDAO = new ContatoDAOImpl();
+
     private int contador = 2;
 
     public ContatoControl() { 
-        Contato c1 = new Contato();
-        c1.setId(1);
-        c1.setNome("João Silva");
-        c1.setEmail("joao@teste.com");
-        c1.setTelefone("(11) 1111-1111");
-
-        Contato c2 = new Contato();
-        c2.setId(2);
-        c2.setNome("Maria Silva");
-        c2.setEmail("Maria@teste.com");
-        c2.setTelefone("(11) 2222-2222");
-
-        lista.addAll( c1, c2 );
+        pesquisarPorNome();
     }
 
     public void entidadeParaTela(Contato c) { 
@@ -61,6 +51,7 @@ public class ContatoControl {
             c.setEmail( this.email.get() );
             c.setNascimento( this.nascimento.get() );
             lista.add( c );
+            contatoDAO.inserir(c);
         } else { 
             for (Contato c : lista) { 
                 if (c.getId() == this.id.get()) { 
@@ -84,15 +75,8 @@ public class ContatoControl {
     }
 
     public void pesquisarPorNome() { 
-        for (Contato c : lista) { 
-            if (c.getNome().contains( nome.get() )) { 
-                nome.set( c.getNome() );
-                email.set( c.getEmail() );
-                telefone.set( c.getTelefone() );
-                nascimento.set( c.getNascimento() );
-            }
-        } 
-
+        lista.clear();
+        lista.addAll( contatoDAO.pesquisarPorNome( nome.get() ) );
     }
 
 
