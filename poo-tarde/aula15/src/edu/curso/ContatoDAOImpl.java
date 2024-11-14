@@ -44,14 +44,37 @@ public class ContatoDAOImpl implements ContatoDAO {
 
     @Override
     public void atualizar(Contato c) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
+        try { 
+            String SQL = """
+                    UPDATE contatos SET nome=?, email=?, telefone=?, nascimento=? 
+                    WHERE id=?
+                    """;
+            PreparedStatement stm = con.prepareStatement( SQL );
+            stm.setString(1, c.getNome());
+            stm.setString(2, c.getEmail());
+            stm.setString(3, c.getTelefone());
+            java.sql.Date dt = java.sql.Date.valueOf( c.getNascimento() );
+            stm.setDate(4, dt );
+
+            stm.setLong(5, c.getId());
+            int i = stm.executeUpdate();
+        } catch (SQLException e) { 
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void remover(Contato c) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remover'");
+        try {
+            String SQL = """
+                    DELETE FROM contatos WHERE id = ?
+                    """;
+            PreparedStatement stm = con.prepareStatement(SQL);
+            stm.setInt(1, c.getId());
+            int i = stm.executeUpdate();
+        } catch (SQLException e) { 
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -78,5 +101,28 @@ public class ContatoDAOImpl implements ContatoDAO {
         }
         return lista;
     }
-    
+
+    @Override
+    public List<Contato> pesquisarTodos() {
+        List<Contato> lista = new ArrayList<>();
+        try { 
+            String SQL = """
+                    SELECT * FROM contatos       
+                    """;
+            PreparedStatement stm = con.prepareStatement(SQL);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) { 
+                Contato c = new Contato();
+                c.setId(rs.getInt("id"));
+                c.setNome(rs.getString("nome"));
+                c.setEmail(rs.getString("email"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setNascimento(rs.getDate("nascimento").toLocalDate());
+                lista.add(c);
+            }
+        } catch (SQLException e) { 
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }

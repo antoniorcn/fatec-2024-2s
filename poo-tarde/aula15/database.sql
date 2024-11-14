@@ -7,8 +7,9 @@ CREATE TABLE contatos (
     nome VARCHAR(100),
     email VARCHAR(100),
     telefone CHAR(30),
+    nascimento DATE,
     PRIMARY KEY (id)
 );
 
-INSERT INTO contatos (nome, email, telefone) 
- VALUES ('Joao Silva', 'joao@teste.com', '(11) 1111-1111');
+INSERT INTO contatos (nome, email, telefone, nascimento) 
+ VALUES ('Joao Silva', 'joao@teste.com', '(11) 1111-1111', '2000-05-23');

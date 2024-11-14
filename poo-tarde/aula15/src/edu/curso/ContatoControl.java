@@ -25,43 +25,41 @@ public class ContatoControl {
     private int contador = 2;
 
     public ContatoControl() { 
-        pesquisarPorNome();
+        pesquisarTodos();
     }
 
     public void entidadeParaTela(Contato c) { 
-        this.id.set( c.getId() );
-        this.nome.set(c.getNome());
-        this.telefone.set(c.getTelefone());
-        this.email.set(c.getEmail());
-        this.nascimento.set(c.getNascimento());
+        if (c!=null) {
+            this.id.set( c.getId() );
+            this.nome.set(c.getNome());
+            this.telefone.set(c.getTelefone());
+            this.email.set(c.getEmail());
+            this.nascimento.set(c.getNascimento());
+        }
     }
 
     public void excluir( Contato c ) { 
         System.out.println("Excluido contato com nome: " + c.getNome());
-        lista.remove( c );
+        contatoDAO.remover(c);
+        pesquisarTodos();
     }
 
     public void gravar() { 
+        Contato c = new Contato();
+        c.setNome( this.nome.get() );
+        c.setTelefone( this.telefone.get() );
+        c.setEmail( this.email.get() );
+        c.setNascimento( this.nascimento.get() );
+
         if (id.get() == 0) { 
-            Contato c = new Contato();
             contador += 1;
-            c.setId(contador);
-            c.setNome( this.nome.get() );
-            c.setTelefone( this.telefone.get() );
-            c.setEmail( this.email.get() );
-            c.setNascimento( this.nascimento.get() );
-            lista.add( c );
+            c.setId(contador);   
             contatoDAO.inserir(c);
         } else { 
-            for (Contato c : lista) { 
-                if (c.getId() == this.id.get()) { 
-                    c.setNome( this.nome.get() );
-                    c.setTelefone( this.telefone.get() );
-                    c.setEmail( this.email.get() );
-                    c.setNascimento( this.nascimento.get() );
-                }
-            }
+            c.setId( id.get() );
+            contatoDAO.atualizar(c);
         }
+        pesquisarTodos();
         limparTudo();
         System.out.println("Lista tamanho: " + lista.size());
     }
@@ -77,6 +75,11 @@ public class ContatoControl {
     public void pesquisarPorNome() { 
         lista.clear();
         lista.addAll( contatoDAO.pesquisarPorNome( nome.get() ) );
+    }
+
+    public void pesquisarTodos() { 
+        lista.clear();
+        lista.addAll(contatoDAO.pesquisarTodos());
     }
 
 

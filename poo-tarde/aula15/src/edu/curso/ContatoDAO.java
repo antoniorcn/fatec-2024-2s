@@ -8,5 +8,6 @@ public interface ContatoDAO {
     void atualizar(Contato c);
     void remover(Contato c);
     List<Contato> pesquisarPorNome(String nome);
+    List<Contato> pesquisarTodos();
     
 }
