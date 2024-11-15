@@ -1,6 +1,5 @@
 package edu.curso;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javafx.collections.ObservableList;
@@ -27,12 +26,8 @@ public class ContatoControl {
     private ContatoDAO contatoDAO = null;
 
 
-    public ContatoControl() { 
-        // try { 
+    public ContatoControl() throws ContatoException { 
         contatoDAO = new ContatoDAOImpl();
-        // } catch (SQLException e) { 
-        //     e.printStackTrace();
-        // }
     }
 
     public Contato paraEntidade() { 
@@ -45,7 +40,7 @@ public class ContatoControl {
         return c;
     }
 
-    public void excluir( Contato c ) throws Exception { 
+    public void excluir( Contato c ) throws ContatoException { 
         contatoDAO.remover( c );
         pesquisarTodos();
     }
@@ -69,7 +64,7 @@ public class ContatoControl {
     }
 
 
-    public void gravar() { 
+    public void gravar() throws ContatoException { 
         Contato c = paraEntidade();
         if (c.getId() == 0 ) { 
             this.contador += 1;
@@ -81,12 +76,12 @@ public class ContatoControl {
         pesquisarTodos();
     }
 
-    public void pesquisar() { 
+    public void pesquisar() throws ContatoException { 
         lista.clear();
         lista.addAll( contatoDAO.pesquisarPorNome( nome.get() ) );
     }
 
-    public void pesquisarTodos() { 
+    public void pesquisarTodos() throws ContatoException { 
         lista.clear();
         lista.addAll( contatoDAO.pesquisarPorNome( "" ) );
     }

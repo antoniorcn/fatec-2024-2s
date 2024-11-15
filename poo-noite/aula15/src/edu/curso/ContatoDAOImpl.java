@@ -17,17 +17,17 @@ public class ContatoDAOImpl implements ContatoDAO {
 
     private Connection con = null;
 
-    public ContatoDAOImpl() { 
+    public ContatoDAOImpl() throws ContatoException { 
         try { 
             Class.forName(DB_CLASS);
             con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         } catch (ClassNotFoundException | SQLException e) { 
-            e.printStackTrace();
+            throw new ContatoException( e );
         }
     }
 
     @Override
-    public void inserir(Contato c) {
+    public void inserir(Contato c) throws ContatoException {
         try { 
             String SQL = """
                     INSERT INTO contatos (id, nome, telefone, email, nascimento)
@@ -42,12 +42,12 @@ public class ContatoDAOImpl implements ContatoDAO {
             stm.setDate(5, dt);
             int i = stm.executeUpdate();
         } catch (SQLException e) { 
-            e.printStackTrace();
+            throw new ContatoException( e );
         }
     }
 
     @Override
-    public void atualizar(Contato c) {
+    public void atualizar(Contato c) throws ContatoException {
         try { 
             String SQL = """
                     UPDATE contatos SET nome = ?, telefone = ?, email = ?, nascimento = ?
@@ -62,12 +62,12 @@ public class ContatoDAOImpl implements ContatoDAO {
             stm.setLong(5, c.getId());
             int i = stm.executeUpdate();
         } catch (SQLException e) { 
-            e.printStackTrace();
+            throw new ContatoException( e );
         }        
     }
 
     @Override
-    public void remover(Contato c) {
+    public void remover(Contato c) throws ContatoException {
         try { 
             String SQL = """
                     DELETE FROM contatos WHERE id = ?
@@ -76,12 +76,12 @@ public class ContatoDAOImpl implements ContatoDAO {
             stm.setLong( 1, c.getId() );
             int i = stm.executeUpdate();
         } catch (SQLException e) { 
-            e.printStackTrace();
+            throw new ContatoException( e );
         }
     }
 
     @Override
-    public List<Contato> pesquisarPorNome(String nome) {
+    public List<Contato> pesquisarPorNome(String nome) throws ContatoException {
         List<Contato> lista = new ArrayList<>();
         try { 
             String SQL = """
@@ -101,7 +101,7 @@ public class ContatoDAOImpl implements ContatoDAO {
                 lista.add( c );
             }
         } catch (SQLException e) { 
-            e.printStackTrace();
+            throw new ContatoException( e );
         }
         return lista;
     }

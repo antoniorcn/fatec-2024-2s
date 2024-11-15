@@ -1,5 +1,6 @@
 package edu.curso;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javafx.application.Application;
@@ -7,6 +8,7 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -28,22 +30,36 @@ public class ContatoBoundary extends Application {
     private TextField txtTelefone = new TextField();
     private DatePicker dateNascimento = new DatePicker();
 
-    private ContatoControl control = new ContatoControl();
+    private ContatoControl control = null;
 
     private TableView<Contato> tableView = new TableView<>();
 
     @Override
     public void start(Stage stage) {
+        try { 
+            control = new ContatoControl();
+        } catch (ContatoException e ) { 
+            new Alert(AlertType.ERROR, "Erro ao iniciar o sistema", ButtonType.OK).showAndWait();
+        }
         BorderPane panePrincipal = new BorderPane();
         GridPane paneForm = new GridPane();
 
         Button btnGravar = new Button("Gravar");
         btnGravar.setOnAction( e -> { 
-            control.gravar();
+            try { 
+                control.gravar();
+            } catch (ContatoException err) { 
+                new Alert(AlertType.ERROR, "Erro ao gravar o contato", ButtonType.OK).showAndWait();
+            }
             tableView.refresh();
         });
         Button btnPesquisar = new Button("Pesquisar");
-        btnPesquisar.setOnAction( e -> control.pesquisar() );
+        btnPesquisar.setOnAction( e -> { 
+            try { 
+                control.pesquisar();
+            } catch (ContatoException err) { 
+                new Alert(AlertType.ERROR, "Erro ao pesquisar por nome", ButtonType.OK).showAndWait();
+            }});
 
         Button btnNovo = new Button("*");
         btnNovo.setOnAction( e -> control.limparTudo() );
@@ -90,8 +106,6 @@ public class ContatoBoundary extends Application {
 
         TableColumn<Contato, LocalDate> col5 = new TableColumn<>("Nascimento");
         col5.setCellValueFactory( new PropertyValueFactory<Contato, LocalDate>("nascimento"));
-        // col5.setCellValueFactory( item -> new ReadOnlyStringWrapper( 
-        //     item.getValue().getNascimento().toString() ) );
 
         tableView.getSelectionModel().selectedItemProperty()
             .addListener( (obs, antigo, novo) -> {
@@ -114,15 +128,7 @@ public class ContatoBoundary extends Application {
                                 try { 
                                     control.excluir( contato ); 
                                 } catch (ContatoException err) { 
-                                    new Alert(
-                                        AlertType.ERROR,
-                                        "Erro ao excluir o usuário"
-                                    ).show();
-                                } catch (Exception err) { 
-                                    new Alert(
-                                        AlertType.ERROR,
-                                        "Erro generico"
-                                    ).show();
+                                    new Alert(AlertType.ERROR, "Erro ao excluir o contato", ButtonType.OK).showAndWait();
                                 }
                             });
                         }
