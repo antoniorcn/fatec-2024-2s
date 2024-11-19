@@ -3,6 +3,7 @@ package edu.curso.agendacontato;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -46,6 +47,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             System.out.println("Username encontrado");
+            System.out.println("Autorizações");
+            for (GrantedAuthority autority : userDetails.getAuthorities()) { 
+                System.out.println( "[" + autority.getAuthority() + "]" );
+            }
             // Validate token and set authentication
             if (jwtService.validateToken(token, userDetails)) {
                 System.out.println("Token Valido");

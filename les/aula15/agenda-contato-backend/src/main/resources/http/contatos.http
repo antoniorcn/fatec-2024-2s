@@ -1,17 +1,20 @@
 GET http://localhost:8080/contatos HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2FvQHRlc3RlLmNvbSIsImlhdCI6MTczMTUyNzYzMSwiZXhwIjoxNzMxNTI5NDMxfQ.-GznZziXvFG40SYVnJKWsfLYTLsZkCStryhnVhcZ3yA
 
 
+
+####
+GET http://localhost:8080/contatos HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpYUB0ZXN0ZS5jb20iLCJpYXQiOjE3MzE1MzMzNTgsImV4cCI6MTczMTUzNTE1OH0.SNmBOkDizEViUEUogg4_A8RbUEdS-3ngu3kdPZM8GR8
 
 
 ###
 POST http://localhost:8080/contatos HTTP/1.1
-Authorization: Basic joao@teste.com 1234
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpYUB0ZXN0ZS5jb20iLCJpYXQiOjE3MzE1MzMzNTgsImV4cCI6MTczMTUzNTE1OH0.SNmBOkDizEViUEUogg4_A8RbUEdS-3ngu3kdPZM8GR8
 Content-Type: application/json
 
 {
     "id": 0,
-    "nome": "Joaquina Barborsa",
+    "nome": "Joaquina Teste Barborsa",
     "email": "joaquina@teste.com",
     "telefone": "(11) 6666-6666"
 }

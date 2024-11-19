@@ -3,10 +3,10 @@ Content-Type: application/json
 
 {
     "id" : 0, 
-    "name": "Joao Silva",
-    "email": "joao@teste.com",
+    "name": "Maria Silva",
+    "email": "maria@teste.com",
     "password": "123456",
-    "roles": "ADMIN"
+    "roles": "ADMIN,USER"
 }
 
 
@@ -17,6 +17,6 @@ POST http://localhost:8080/auth/generateToken HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "joao@teste.com",
+    "username": "maria@teste.com",
     "password": "123456"
 }

@@ -49,8 +49,9 @@ public class SecurityConfig {
                     authorize.requestMatchers("/auth/welcome").permitAll()
                     .requestMatchers("/auth/addNewUser").permitAll()
                     .requestMatchers("/auth/generateToken").permitAll()
-                    // .requestMatchers("/contatos").authenticated()
-                    .anyRequest().authenticated();
+                    .requestMatchers("/contatos").authenticated()
+                    //.anyRequest().authenticated();
+                    ;
                 }
             )
             .sessionManagement(sess -> sess
