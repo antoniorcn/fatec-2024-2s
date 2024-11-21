@@ -1,3 +1,5 @@
+package edu.curso;
+
 public class Endereco {
     private long id;
     private String logradouro;

@@ -1,6 +1,4 @@
 package edu.curso;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
@@ -13,47 +11,54 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javafx.util.converter.LongStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class ContatoBoundary implements Tela { 
+public class EnderecoBoundary implements Tela { 
     private Label lblId = new Label("");
-    private TextField txtNome = new TextField("");
-    private TextField txtTelefone = new TextField("");
-    private TextField txtEmail = new TextField("");
-    private DatePicker dateNascimento = new DatePicker(LocalDate.now());
+    private TextField txtLogradouro = new TextField("");
+    private TextField txtNumero = new TextField("");
+    private TextField txtComplemento = new TextField("");
+    private TextField txtBairro = new TextField("");
+    private TextField txtCidade = new TextField("");
+    private TextField txtEstado = new TextField("");
+    private TextField txtCep = new TextField("");
+    
 
-    private TableView<Contato> tableView = new TableView<>();
+    private TableView<Endereco> tableView = new TableView<>();
 
-    private ContatoControl control;
+    private EnderecoControl control;
 
     @Override
     public Pane render() { 
         BorderPane panePrincipal = new BorderPane();
 
-        try { 
-            control = new ContatoControl();
-        } catch (AgendaException e) { 
-            alert(AlertType.ERROR, "Ao ao inicializar o sistema");
-        }
+        control = new EnderecoControl();
 
         GridPane paneForm = new GridPane();
         paneForm.add(new Label("Id: "), 0, 0);
         paneForm.add(lblId, 1, 0);
-        paneForm.add(new Label("Nome: "), 0, 1);
-        paneForm.add(txtNome, 1, 1);
-        paneForm.add(new Label("Telefone: "), 0, 2);
-        paneForm.add(txtTelefone, 1, 2);
-        paneForm.add(new Label("Email: "), 0, 3);
-        paneForm.add(txtEmail, 1, 3);
-        paneForm.add(new Label("Nascimento: "), 0, 4);
-        paneForm.add(dateNascimento, 1, 4);
+        paneForm.add(new Label("Logradouro: "), 0, 1);
+        paneForm.add(txtLogradouro, 1, 1);
+        paneForm.add(new Label("Numero: "), 0, 2);
+        paneForm.add(txtNumero, 1, 2);
+        paneForm.add(new Label("Complemento: "), 0, 3);
+        paneForm.add(txtComplemento, 1, 3);
+        paneForm.add(new Label("Bairro: "), 0, 4);
+        paneForm.add(txtBairro, 1, 4);
+        paneForm.add(new Label("Cidade: "), 0, 5);
+        paneForm.add(txtCidade, 1, 5);
+        paneForm.add(new Label("Estado: "), 0, 6);
+        paneForm.add(txtEstado, 1, 6);
+        paneForm.add(new Label("CEP: "), 0, 7);
+        paneForm.add(txtCep, 1, 7);
 
         Button btnGravar = new Button("Gravar");
         btnGravar.setOnAction( e -> {
@@ -67,7 +72,7 @@ public class ContatoBoundary implements Tela {
         Button btnPesquisar = new Button("Pesquisar");
         btnPesquisar.setOnAction( e -> { 
             try { 
-                control.pesquisarPorNome(); 
+                control.pesquisarPorLogradouro(); 
             } catch (AgendaException err) { 
                 alert(AlertType.ERROR, "Erro ao pesquisar");
             }   
@@ -103,34 +108,43 @@ public class ContatoBoundary implements Tela {
     }
 
     public void generateColumns() { 
-        TableColumn<Contato, Integer> col1 = new TableColumn<>("Id");
-        col1.setCellValueFactory(new PropertyValueFactory<Contato, Integer>("id"));
+        TableColumn<Endereco, Integer> col1 = new TableColumn<>("Id");
+        col1.setCellValueFactory(new PropertyValueFactory<Endereco, Integer>("id"));
 
-        TableColumn<Contato, String> col2 = new TableColumn<>("Nome");
-        col2.setCellValueFactory(new PropertyValueFactory<Contato, String>("nome"));
+        TableColumn<Endereco, String> col2 = new TableColumn<>("Logradouro");
+        col2.setCellValueFactory(new PropertyValueFactory<Endereco, String>("logradouro"));
 
-        TableColumn<Contato, String> col3 = new TableColumn<>("Email");
-        col3.setCellValueFactory(new PropertyValueFactory<Contato, String>("email"));
+        TableColumn<Endereco, Integer> col3 = new TableColumn<>("Numero");
+        col3.setCellValueFactory(new PropertyValueFactory<Endereco, Integer>("numero"));
 
-        TableColumn<Contato, String> col4 = new TableColumn<>("Telefone");
-        col4.setCellValueFactory(new PropertyValueFactory<Contato, String>("telefone"));
+        TableColumn<Endereco, String> col4 = new TableColumn<>("Complemento");
+        col4.setCellValueFactory(new PropertyValueFactory<Endereco, String>("complemento"));
 
-        TableColumn<Contato, LocalDate> col5 = new TableColumn<>("Nascimento");
-        col5.setCellValueFactory(new PropertyValueFactory<Contato, LocalDate>("nascimento"));
+        TableColumn<Endereco, String> col5 = new TableColumn<>("Bairro");
+        col5.setCellValueFactory(new PropertyValueFactory<Endereco, String>("bairro"));
+
+        TableColumn<Endereco, String> col6 = new TableColumn<>("Cidade");
+        col6.setCellValueFactory(new PropertyValueFactory<Endereco, String>("cidade"));
+
+        TableColumn<Endereco, String> col7 = new TableColumn<>("Estado");
+        col7.setCellValueFactory(new PropertyValueFactory<Endereco, String>("estado"));
+
+        TableColumn<Endereco, String> col8 = new TableColumn<>("Cep");
+        col8.setCellValueFactory(new PropertyValueFactory<Endereco, String>("cep"));
 
 
         // Criar o fabricante da Celula
-        Callback<TableColumn<Contato, Void>, TableCell<Contato, Void>> callback = 
+        Callback<TableColumn<Endereco, Void>, TableCell<Endereco, Void>> callback = 
             new  Callback<>() {
                 @Override
-                public TableCell<Contato, Void> call(TableColumn<Contato, Void> param) {
-                    TableCell<Contato, Void> tc = new TableCell<>() { 
+                public TableCell<Endereco, Void> call(TableColumn<Endereco, Void> param) {
+                    TableCell<Endereco, Void> tc = new TableCell<>() { 
                         final Button btnExcluir = new Button("Apagar");
                         {
                             btnExcluir.setOnAction( 
                                 e -> { 
                                     try { 
-                                        Contato c = tableView.getItems().get( getIndex() );
+                                        Endereco c = tableView.getItems().get( getIndex() );
                                         control.excluir( c ); 
                                     } catch (AgendaException err) { 
                                         alert(AlertType.ERROR, "Erro ao excluir");
@@ -151,10 +165,10 @@ public class ContatoBoundary implements Tela {
                 } 
         };
 
-        TableColumn<Contato, Void> col6 = new TableColumn<>("Ações");
-        col6.setCellFactory( callback );
+        TableColumn<Endereco, Void> col9 = new TableColumn<>("Ações");
+        col9.setCellFactory( callback );
 
-        tableView.getColumns().addAll(col1, col2, col3, col4, col5, col6);
+        tableView.getColumns().addAll(col1, col2, col3, col4, col5, col6, col7, col8, col9);
         tableView.setItems( control.getLista() );
 
         tableView.getSelectionModel().selectedItemProperty()
@@ -166,10 +180,14 @@ public class ContatoBoundary implements Tela {
 
     public void vincularPropriedades() { 
         Bindings.bindBidirectional(lblId.textProperty(), control.idProperty(), 
+                    (StringConverter) new LongStringConverter());
+        Bindings.bindBidirectional(txtLogradouro.textProperty(), control.logradouroProperty());
+        Bindings.bindBidirectional(txtNumero.textProperty(), control.numeroProperty(), 
                     (StringConverter) new IntegerStringConverter());
-        Bindings.bindBidirectional(txtNome.textProperty(), control.nomeProperty());
-        Bindings.bindBidirectional(txtEmail.textProperty(), control.emailProperty());
-        Bindings.bindBidirectional(txtTelefone.textProperty(), control.telefoneProperty());
-        Bindings.bindBidirectional(dateNascimento.valueProperty(), control.nascimentoProperty());
+        Bindings.bindBidirectional(txtComplemento.textProperty(), control.complementoProperty());                    
+        Bindings.bindBidirectional(txtBairro.textProperty(), control.bairroProperty());
+        Bindings.bindBidirectional(txtCidade.textProperty(), control.cidadeProperty());
+        Bindings.bindBidirectional(txtEstado.textProperty(), control.estadoProperty());
+        Bindings.bindBidirectional(txtCep.textProperty(), control.cepProperty());
     }
 }
