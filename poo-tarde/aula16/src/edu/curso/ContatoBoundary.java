@@ -38,7 +38,7 @@ public class ContatoBoundary extends Application {
 
         try { 
             control = new ContatoControl();
-        } catch (ContatoException e) { 
+        } catch (AgendaException e) { 
             alert(AlertType.ERROR, "Ao ao inicializar o sistema");
         }
 
@@ -59,7 +59,7 @@ public class ContatoBoundary extends Application {
             try { 
                 control.gravar();
                 tableView.refresh();
-            } catch (ContatoException err) { 
+            } catch (AgendaException err) { 
                 alert(AlertType.ERROR, "Erro ao gravar");
             }  
         });
@@ -67,7 +67,7 @@ public class ContatoBoundary extends Application {
         btnPesquisar.setOnAction( e -> { 
             try { 
                 control.pesquisarPorNome(); 
-            } catch (ContatoException err) { 
+            } catch (AgendaException err) { 
                 alert(AlertType.ERROR, "Erro ao pesquisar");
             }   
         });
@@ -91,7 +91,7 @@ public class ContatoBoundary extends Application {
         stage.show();
         try { 
         control.pesquisarTodos();
-        } catch(ContatoException e) { 
+        } catch(AgendaException e) { 
             alert(AlertType.ERROR, "Erro ao pesquisar todos");
         }
     }
@@ -133,7 +133,7 @@ public class ContatoBoundary extends Application {
                                     try { 
                                         Contato c = tableView.getItems().get( getIndex() );
                                         control.excluir( c ); 
-                                    } catch (ContatoException err) { 
+                                    } catch (AgendaException err) { 
                                         alert(AlertType.ERROR, "Erro ao excluir");
                                     }  
                                 }

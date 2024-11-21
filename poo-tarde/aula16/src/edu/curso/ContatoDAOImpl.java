@@ -10,7 +10,7 @@ import java.util.List;
 public class ContatoDAOImpl implements ContatoDAO {
 
     @Override
-    public void inserir(Contato c) throws ContatoException {
+    public void inserir(Contato c) throws AgendaException {
         try { 
             String SQL = """
                     INSERT INTO contatos (id, nome, email, telefone, nascimento) 
@@ -28,12 +28,12 @@ public class ContatoDAOImpl implements ContatoDAO {
             con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
-            throw new ContatoException(e);
+            throw new AgendaException(e);
         }
     }
 
     @Override
-    public void atualizar(Contato c) throws ContatoException {
+    public void atualizar(Contato c) throws AgendaException {
         try { 
             String SQL = """
                     UPDATE contatos SET nome=?, email=?, telefone=?, nascimento=? 
@@ -52,12 +52,12 @@ public class ContatoDAOImpl implements ContatoDAO {
             con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
-            throw new ContatoException(e);
+            throw new AgendaException(e);
         }
     }
 
     @Override
-    public void remover(Contato c)  throws ContatoException {
+    public void remover(Contato c)  throws AgendaException {
         try {
             String SQL = """
                     DELETE FROM contatos WHERE id = ?
@@ -69,12 +69,12 @@ public class ContatoDAOImpl implements ContatoDAO {
             con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
-            throw new ContatoException(e);
+            throw new AgendaException(e);
         }
     }
 
     @Override
-    public List<Contato> pesquisarPorNome(String nome) throws ContatoException {
+    public List<Contato> pesquisarPorNome(String nome) throws AgendaException {
         List<Contato> lista = new ArrayList<>();
         try { 
             String SQL = """
@@ -96,13 +96,13 @@ public class ContatoDAOImpl implements ContatoDAO {
             con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
-            throw new ContatoException(e);
+            throw new AgendaException(e);
         }
         return lista;
     }
 
     @Override
-    public List<Contato> pesquisarTodos() throws ContatoException {
+    public List<Contato> pesquisarTodos() throws AgendaException {
         List<Contato> lista = new ArrayList<>();
         try { 
             String SQL = """
@@ -123,7 +123,7 @@ public class ContatoDAOImpl implements ContatoDAO {
             con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
-            throw new ContatoException(e);
+            throw new AgendaException(e);
         }
         return lista;
     }

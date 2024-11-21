@@ -24,7 +24,7 @@ public class ContatoControl {
 
     private int contador = 2;
 
-    public ContatoControl() throws ContatoException{ 
+    public ContatoControl() throws AgendaException{ 
         contatoDAO = new ContatoDAOImpl();
     }
 
@@ -38,13 +38,13 @@ public class ContatoControl {
         }
     }
 
-    public void excluir( Contato c )  throws ContatoException { 
+    public void excluir( Contato c )  throws AgendaException { 
         System.out.println("Excluido contato com nome: " + c.getNome());
         contatoDAO.remover(c);
         pesquisarTodos();
     }
 
-    public void gravar() throws ContatoException { 
+    public void gravar() throws AgendaException { 
         Contato c = new Contato();
         c.setNome( this.nome.get() );
         c.setTelefone( this.telefone.get() );
@@ -72,12 +72,12 @@ public class ContatoControl {
         nascimento.set(LocalDate.now());
     }
 
-    public void pesquisarPorNome()  throws ContatoException { 
+    public void pesquisarPorNome()  throws AgendaException { 
         lista.clear();
         lista.addAll( contatoDAO.pesquisarPorNome( nome.get() ) );
     }
 
-    public void pesquisarTodos()  throws ContatoException { 
+    public void pesquisarTodos()  throws AgendaException { 
         lista.clear();
         lista.addAll(contatoDAO.pesquisarTodos());
     }
