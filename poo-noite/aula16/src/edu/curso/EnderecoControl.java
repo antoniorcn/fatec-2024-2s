@@ -96,6 +96,10 @@ public class EnderecoControl {
         return endereco;
     }
 
+    public ObservableList<Endereco> getLista() { 
+        return this.lista;
+    }
+
     public LongProperty idProperty() { 
         return this.id;
     }
