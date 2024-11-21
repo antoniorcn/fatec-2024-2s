@@ -8,16 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 public class ContatoDAOImpl implements ContatoDAO {
-    private Connection con = null;
-    public ContatoDAOImpl() throws ContatoException { 
-        try { 
-            Class.forName(DB_CLASS);
-            con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-        } catch (ClassNotFoundException | SQLException e) { 
-            e.printStackTrace();
-            throw new ContatoException(e);
-        }
-    }
 
     @Override
     public void inserir(Contato c) throws ContatoException {
@@ -26,6 +16,7 @@ public class ContatoDAOImpl implements ContatoDAO {
                     INSERT INTO contatos (id, nome, email, telefone, nascimento) 
                     VALUES (?, ?, ?, ?, ?)
                     """;
+            Connection con = Conexao.getInstance().getConnection();
             PreparedStatement stm = con.prepareStatement( SQL );
             stm.setLong(1, 0);
             stm.setString(2, c.getNome());
@@ -34,6 +25,7 @@ public class ContatoDAOImpl implements ContatoDAO {
             java.sql.Date dt = java.sql.Date.valueOf( c.getNascimento() );
             stm.setDate(5, dt );
             int i = stm.executeUpdate();
+            con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
             throw new ContatoException(e);
@@ -47,6 +39,7 @@ public class ContatoDAOImpl implements ContatoDAO {
                     UPDATE contatos SET nome=?, email=?, telefone=?, nascimento=? 
                     WHERE id=?
                     """;
+            Connection con = Conexao.getInstance().getConnection();
             PreparedStatement stm = con.prepareStatement( SQL );
             stm.setString(1, c.getNome());
             stm.setString(2, c.getEmail());
@@ -56,6 +49,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 
             stm.setLong(5, c.getId());
             int i = stm.executeUpdate();
+            con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
             throw new ContatoException(e);
@@ -68,9 +62,11 @@ public class ContatoDAOImpl implements ContatoDAO {
             String SQL = """
                     DELETE FROM contatos WHERE id = ?
                     """;
+            Connection con = Conexao.getInstance().getConnection();
             PreparedStatement stm = con.prepareStatement(SQL);
             stm.setInt(1, c.getId());
             int i = stm.executeUpdate();
+            con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
             throw new ContatoException(e);
@@ -84,6 +80,7 @@ public class ContatoDAOImpl implements ContatoDAO {
             String SQL = """
                     SELECT * FROM contatos WHERE nome LIKE ?       
                     """;
+            Connection con = Conexao.getInstance().getConnection();
             PreparedStatement stm = con.prepareStatement(SQL);
             stm.setString(1, "%" + nome + "%");
             ResultSet rs = stm.executeQuery();
@@ -96,6 +93,7 @@ public class ContatoDAOImpl implements ContatoDAO {
                 c.setNascimento(rs.getDate("nascimento").toLocalDate());
                 lista.add(c);
             }
+            con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
             throw new ContatoException(e);
@@ -110,6 +108,7 @@ public class ContatoDAOImpl implements ContatoDAO {
             String SQL = """
                     SELECT * FROM contatos       
                     """;
+            Connection con = Conexao.getInstance().getConnection();
             PreparedStatement stm = con.prepareStatement(SQL);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) { 
@@ -121,6 +120,7 @@ public class ContatoDAOImpl implements ContatoDAO {
                 c.setNascimento(rs.getDate("nascimento").toLocalDate());
                 lista.add(c);
             }
+            con.close();
         } catch (SQLException e) { 
             e.printStackTrace();
             throw new ContatoException(e);
