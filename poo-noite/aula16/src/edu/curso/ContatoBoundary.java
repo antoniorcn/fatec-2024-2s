@@ -18,10 +18,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class ContatoBoundary extends Application {
+public class ContatoBoundary implements Tela {
 
     private Label lblId = new Label("");
     private TextField txtNome = new TextField();
@@ -34,7 +35,7 @@ public class ContatoBoundary extends Application {
     private TableView<Contato> tableView = new TableView<>();
 
     @Override
-    public void start(Stage stage) {
+    public Pane render() {
         try { 
             control = new ContatoControl();
         } catch (AgendaException e ) { 
@@ -84,10 +85,7 @@ public class ContatoBoundary extends Application {
         panePrincipal.setTop( paneForm );
         panePrincipal.setCenter(tableView);
 
-        Scene scn = new Scene(panePrincipal, 600, 400);
-        stage.setScene(scn);
-        stage.setTitle("Agenda de Contatos");
-        stage.show();
+        return panePrincipal;
     }
 
     public void gerarColunas() { 
@@ -163,9 +161,4 @@ public class ContatoBoundary extends Application {
         Bindings.bindBidirectional(control.nascimentoProperty(), 
                 dateNascimento.valueProperty());
     }
-
-    public static void main(String[] args) {
-        Application.launch(ContatoBoundary.class, args);
-    }
-    
 }

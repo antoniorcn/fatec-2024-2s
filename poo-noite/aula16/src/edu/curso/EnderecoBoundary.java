@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -16,12 +15,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
-public class EnderecoBoundary extends Application {
+public class EnderecoBoundary implements Tela {
 
     private Label lblId = new Label("");
     private TextField txtLogradouro = new TextField();
@@ -37,7 +37,7 @@ public class EnderecoBoundary extends Application {
     private TableView<Endereco> tableView = new TableView<>();
 
     @Override
-    public void start(Stage stage) {
+    public Pane render() {
         try { 
             control = new EnderecoControl();
         } catch (AgendaException e ) { 
@@ -93,10 +93,7 @@ public class EnderecoBoundary extends Application {
         panePrincipal.setTop( paneForm );
         panePrincipal.setCenter(tableView);
 
-        Scene scn = new Scene(panePrincipal, 600, 400);
-        stage.setScene(scn);
-        stage.setTitle("Gestão de Endereços");
-        stage.show();
+       return panePrincipal;
     }
 
     public void gerarColunas() { 
@@ -186,9 +183,4 @@ public class EnderecoBoundary extends Application {
         Bindings.bindBidirectional(control.estadoProperty(), txtEstado.textProperty() );
         Bindings.bindBidirectional(control.cepProperty(), txtCep.textProperty() );
     }
-
-    public static void main(String[] args) {
-        Application.launch(EnderecoBoundary.class, args);
-    }
-    
 }
